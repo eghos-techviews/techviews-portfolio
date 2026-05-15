@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Tech Views — Frontend Developer portfolio showcasing interactive web apps, real-time dashboards, and modern UI engineering." />
+		<meta name="theme-color" content="#0a0f1e" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+		<script>
+			(function () {
+				try {
+					var saved = localStorage.getItem('tv-theme');
+					var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					if (saved === 'dark' || (!saved && prefersDark)) {
+						document.documentElement.classList.add('dark');
+					}
+				} catch (e) {}
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover" class="bg-white dark:bg-[#0a0f1e] transition-colors duration-300">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
