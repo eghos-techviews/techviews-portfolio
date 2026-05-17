@@ -1,62 +1,28 @@
-export interface Skill {
-	name: string;
-	level: number;
-	icon: string;
-}
-
-export interface SkillCategory {
+export interface SkillGroup {
 	label: string;
-	emoji: string;
-	skills: Skill[];
+	note: string;
+	skills: string[];
 }
 
-export const skillCategories: SkillCategory[] = [
+export const skillGroups: SkillGroup[] = [
 	{
-		label: 'Frontend',
-		emoji: '⚡',
-		skills: [
-			{ name: 'Vue 3', level: 92, icon: '🟢' },
-			{ name: 'SvelteKit', level: 85, icon: '🔶' },
-			{ name: 'TypeScript', level: 88, icon: '🔷' },
-			{ name: 'React', level: 78, icon: '⚛️' },
-			{ name: 'JavaScript', level: 95, icon: '🟡' }
-		]
+		label: 'Grounded in',
+		note: 'Things I reach for without thinking twice',
+		skills: ['Angular', 'TypeScript', 'HTML & CSS', 'TailwindCSS', 'Git']
 	},
 	{
-		label: 'Styling & Animation',
-		emoji: '🎨',
-		skills: [
-			{ name: 'TailwindCSS', level: 93, icon: '🌊' },
-			{ name: 'CSS3 / SCSS', level: 90, icon: '🎨' },
-			{ name: 'GSAP', level: 80, icon: '✨' },
-			{ name: 'Framer Motion', level: 72, icon: '🎬' }
-		]
+		label: 'Getting sharp in',
+		note: 'Active learning — React/Next.js through HNG, SvelteKit on personal builds',
+		skills: ['React', 'Next.js', 'SvelteKit', 'Vue 3', 'Pinia']
 	},
 	{
-		label: 'State & Data',
-		emoji: '🗄️',
-		skills: [
-			{ name: 'Pinia', level: 88, icon: '🍍' },
-			{ name: 'Zustand', level: 75, icon: '🐻' },
-			{ name: 'REST APIs', level: 90, icon: '🔌' },
-			{ name: 'WebSockets', level: 80, icon: '🔗' }
-		]
+		label: 'Use daily',
+		note: 'The rest of the toolkit',
+		skills: ['Vite', 'Vercel', 'Figma', 'VS Code', 'REST APIs', 'WebSockets']
 	},
 	{
-		label: 'Tooling',
-		emoji: '🛠️',
-		skills: [
-			{ name: 'Vite', level: 90, icon: '⚡' },
-			{ name: 'Git / GitHub', level: 92, icon: '🐙' },
-			{ name: 'Vercel', level: 88, icon: '▲' },
-			{ name: 'Figma', level: 76, icon: '🖌️' }
-		]
+		label: 'Background in',
+		note: 'QA — where I actually started',
+		skills: ['Manual Testing', 'Test Case Design', 'Bug Reporting', 'Edge Case Thinking']
 	}
-];
-
-export const techStack = [
-	'Vue 3', 'SvelteKit', 'TypeScript', 'React',
-	'TailwindCSS', 'GSAP', 'Pinia', 'Vite',
-	'Node.js', 'WebSockets', 'Git', 'Vercel',
-	'Figma', 'CSS3', 'JavaScript', 'REST APIs'
 ];

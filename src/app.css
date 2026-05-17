@@ -3,133 +3,133 @@
 @tailwind utilities;
 
 @layer base {
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
 
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0a0f1e];
+    @apply font-sans text-ink-900 dark:text-cream-200 bg-cream-50 dark:bg-[#0f0c08];
     min-height: 100vh;
   }
 
   ::selection {
-    @apply bg-brand-500/30 text-brand-900 dark:text-white;
+    @apply bg-brand-500/20 text-ink-900 dark:text-cream-100;
   }
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-500;
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    @apply bg-slate-100 dark:bg-slate-900;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-brand-500/50 rounded-full;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-brand-500;
-  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-cream-100 dark:bg-ink-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-brand-400/60 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-brand-500; }
 }
 
 @layer components {
-  .glass {
-    @apply bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-slate-200/60 dark:border-white/10;
+  /* Cards — solid, warm, no glass blur */
+  .card {
+    @apply bg-white dark:bg-[#1a1510]
+      border border-cream-300 dark:border-ink-700/60
+      rounded-2xl;
   }
 
-  .glass-card {
-    @apply bg-white/80 dark:bg-[#0f1729]/80 backdrop-blur-xl border border-slate-200 dark:border-brand-500/10 rounded-2xl shadow-lg dark:shadow-[0_4px_24px_rgba(0,0,0,0.4)];
+  .section-label {
+    @apply font-mono text-xs font-medium tracking-[0.2em] uppercase
+      text-brand-500 dark:text-brand-400;
   }
 
-  .section-heading {
-    @apply text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white;
+  .display-heading {
+    @apply font-serif font-bold leading-[1.05] tracking-tight
+      text-ink-900 dark:text-cream-100;
   }
 
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-400 via-brand-500 to-accent-500;
+  .body-text {
+    @apply text-ink-600 dark:text-ink-300 leading-relaxed;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white
-      bg-gradient-to-r from-brand-500 to-accent-500
-      hover:from-brand-600 hover:to-accent-600
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl
+      font-semibold text-sm text-cream-50
+      bg-brand-600 hover:bg-brand-700
+      dark:bg-brand-500 dark:hover:bg-brand-600
       focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2
-      transition-all duration-200 shadow-lg hover:shadow-brand-500/25
-      active:scale-95;
+      transition-all duration-200 active:scale-95;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
-      border-2 border-brand-500/50 text-brand-500 dark:text-brand-400
-      hover:border-brand-500 hover:bg-brand-500/10
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl
+      font-semibold text-sm
+      border border-ink-300 dark:border-ink-700
+      text-ink-700 dark:text-ink-300
+      hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400
       focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2
-      transition-all duration-200
-      active:scale-95;
+      transition-all duration-200 active:scale-95;
   }
 
   .nav-link {
-    @apply relative text-sm font-medium text-slate-600 dark:text-slate-300
-      hover:text-brand-500 dark:hover:text-brand-400
+    @apply text-sm font-medium text-ink-500 dark:text-ink-400
+      hover:text-ink-900 dark:hover:text-cream-200
       transition-colors duration-200
-      after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px]
-      after:bg-brand-500 after:transition-all after:duration-300
-      hover:after:w-full;
-  }
-
-  .skill-badge {
-    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
-      bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300
-      border border-slate-200 dark:border-white/10
-      hover:border-brand-500/50 hover:text-brand-500 dark:hover:text-brand-400
-      transition-all duration-200;
+      relative after:absolute after:bottom-[-3px] after:left-0
+      after:w-0 after:h-[1.5px] after:bg-brand-500
+      after:transition-all after:duration-300 hover:after:w-full;
   }
 
   .terminal-window {
-    @apply rounded-xl overflow-hidden border border-slate-200 dark:border-white/10
-      shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)];
+    @apply rounded-xl overflow-hidden
+      border border-cream-300 dark:border-ink-700/60
+      shadow-lg;
   }
 
   .terminal-bar {
-    @apply flex items-center gap-2 px-4 py-3 bg-slate-100 dark:bg-[#1a1f35] border-b border-slate-200 dark:border-white/10;
+    @apply flex items-center gap-1.5 px-4 py-3
+      bg-cream-100 dark:bg-[#211a13]
+      border-b border-cream-200 dark:border-ink-700/50;
   }
 
   .terminal-body {
-    @apply bg-white dark:bg-[#0d1220] p-4 font-mono text-sm min-h-[200px];
+    @apply bg-white dark:bg-[#160f09] p-5 font-mono text-sm;
+  }
+
+  .skill-pill {
+    @apply inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium
+      bg-cream-100 dark:bg-ink-800/60
+      text-ink-700 dark:text-ink-200
+      border border-cream-300 dark:border-ink-700/50;
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .animate-delay-100 { animation-delay: 100ms; }
-  .animate-delay-200 { animation-delay: 200ms; }
-  .animate-delay-300 { animation-delay: 300ms; }
-  .animate-delay-400 { animation-delay: 400ms; }
-  .animate-delay-500 { animation-delay: 500ms; }
+  .text-balance { text-wrap: balance; }
 }
 
+/* Dot grid background — warm tone */
 .bg-grid {
-  background-image: radial-gradient(circle, rgba(14,165,233,0.12) 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-image: radial-gradient(circle, rgba(194,115,42,0.1) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
+/* Scroll reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(28px);
 }
-
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+}
+
+/* Slight warm paper texture in hero */
+.paper-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
 }

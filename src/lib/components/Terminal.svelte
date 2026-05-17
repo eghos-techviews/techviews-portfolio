@@ -6,15 +6,21 @@
 
 	const SEQUENCE: { cmd: string; output: string[] }[] = [
 		{
-			cmd: 'whoami',
-			output: ['Tech Views  —  Frontend Developer', 'Location: Nigeria  |  Open to remote']
+			cmd: 'cat story.txt',
+			output: [
+				'QA tester by trade. Found bugs for a living.',
+				'Then I got tired of knowing what breaks',
+				'without being able to build it better.',
+				'So I started building.'
+			]
 		},
 		{
-			cmd: 'cat about.txt',
+			cmd: 'cat current.txt',
 			output: [
-				'Passionate about high-performance UIs,',
-				'developer tooling, and clean architecture.',
-				'Specialising in Vue 3, SvelteKit & TypeScript.'
+				'HNG internship  →  React + Next.js (in the deep end)',
+				'Angular         →  my first real grip on the DOM',
+				'SvelteKit       →  built this portfolio with it',
+				'Goal: understand systems, not just use them'
 			]
 		},
 		{
@@ -22,74 +28,65 @@
 			output: ['SysMonitor/    E2EMessaging/    HabitTracker/']
 		},
 		{
-			cmd: 'cat skills.json',
+			cmd: 'cat philosophy.txt',
 			output: [
-				'{',
-				'  "frontend":  ["Vue 3", "Svelte", "TypeScript"],',
-				'  "styling":   ["TailwindCSS", "CSS3", "GSAP"],',
-				'  "state":     ["Pinia", "Zustand"],',
-				'  "tools":     ["Vite", "Git", "Vercel", "Figma"]',
-				'}'
+				'UI should tell a story.',
+				'It should pull you in — not just look clean.',
+				'Low effort is disrespect to the person using it.',
+				'I build things I would actually want to use.'
 			]
 		},
 		{
-			cmd: 'cat contact.json',
-			output: [
-				'{',
-				'  "github":       "eghos-techviews",',
-				'  "open_to_work": true,',
-				'  "status":       "Available for projects"',
-				'}'
-			]
+			cmd: 'echo $status',
+			output: ["open to frontend roles. let's build something worth using."]
 		}
 	];
 
-	let lines = $state<Line[]>([]);
-	let inputValue = $state('');
-	let showCursor = $state(true);
-	let isPlaying = $state(false);
-	let isReady = $state(false);
-	let inputRef = $state<HTMLInputElement | null>(null);
-
 	const KNOWN_COMMANDS: Record<string, string[]> = {
 		help: [
-			'Available commands:',
-			'  whoami       — about me',
-			'  cat about.txt',
-			'  ls projects/',
-			'  cat skills.json',
-			'  cat contact.json',
-			'  clear        — reset terminal'
+			'commands:',
+			'  cat story.txt       — how I got here',
+			'  cat current.txt     — what I\'m learning',
+			'  ls projects/        — things I\'ve built',
+			'  cat philosophy.txt  — how I think about UI',
+			'  echo $status        — availability',
+			'  clear               — reset'
 		],
 		clear: []
 	};
+
+	type Line_t = Line;
+	let lines = $state<Line_t[]>([]);
+	let inputValue = $state('');
+	let isPlaying = $state(false);
+	let isReady = $state(false);
 
 	function sleep(ms: number) {
 		return new Promise<void>((r) => setTimeout(r, ms));
 	}
 
 	async function typeCommand(cmd: string) {
-		const cmdLine: Line = { type: 'command', text: '' };
-		lines = [...lines, cmdLine];
+		const line: Line_t = { type: 'command', text: '' };
+		lines = [...lines, line];
 		for (const ch of cmd) {
-			cmdLine.text += ch;
+			line.text += ch;
 			lines = [...lines];
-			await sleep(40 + Math.random() * 30);
+			await sleep(38 + Math.random() * 28);
 		}
 	}
 
 	async function playSequence() {
 		isPlaying = true;
-		await sleep(600);
+		await sleep(700);
 		for (const step of SEQUENCE) {
 			await typeCommand(step.cmd);
-			await sleep(250);
+			await sleep(220);
 			for (const out of step.output) {
 				lines = [...lines, { type: 'output', text: out }];
-				await sleep(60);
+				await sleep(55);
 			}
 			lines = [...lines, { type: 'blank' }];
-			await sleep(350);
+			await sleep(400);
 		}
 		isPlaying = false;
 		isReady = true;
@@ -99,7 +96,9 @@
 		if (e.key !== 'Enter') return;
 		const cmd = inputValue.trim().toLowerCase();
 		if (!cmd) return;
+
 		lines = [...lines, { type: 'command', text: cmd }];
+
 		if (cmd === 'clear') {
 			lines = [];
 		} else if (KNOWN_COMMANDS[cmd]) {
@@ -116,29 +115,28 @@
 			} else {
 				lines = [
 					...lines,
-					{ type: 'output', text: `bash: ${cmd}: command not found` },
-					{ type: 'output', text: 'Type "help" to see available commands.' }
+					{ type: 'output', text: `command not found: ${cmd}` },
+					{ type: 'output', text: 'type "help" to see what\'s available' }
 				];
 			}
 			lines = [...lines, { type: 'blank' }];
 		}
+
 		inputValue = '';
 		requestAnimationFrame(() => {
-			const el = document.getElementById('terminal-scroll');
+			const el = document.getElementById('term-scroll');
 			if (el) el.scrollTop = el.scrollHeight;
 		});
 	}
 
 	$effect(() => {
-		const interval = setInterval(() => (showCursor = !showCursor), 500);
 		playSequence();
-		return () => clearInterval(interval);
 	});
 
 	$effect(() => {
 		if (lines.length) {
 			requestAnimationFrame(() => {
-				const el = document.getElementById('terminal-scroll');
+				const el = document.getElementById('term-scroll');
 				if (el) el.scrollTop = el.scrollHeight;
 			});
 		}
@@ -147,16 +145,16 @@
 
 <div class="terminal-window font-mono text-sm" role="region" aria-label="Interactive terminal">
 	<div class="terminal-bar select-none">
-		<span class="w-3 h-3 rounded-full bg-red-400" aria-hidden="true"></span>
-		<span class="w-3 h-3 rounded-full bg-yellow-400" aria-hidden="true"></span>
-		<span class="w-3 h-3 rounded-full bg-green-400" aria-hidden="true"></span>
-		<span class="ml-auto text-xs text-slate-400 dark:text-slate-500 tracking-wide">techviews — terminal</span>
+		<span class="w-3 h-3 rounded-full bg-red-400/80" aria-hidden="true"></span>
+		<span class="w-3 h-3 rounded-full bg-yellow-400/80" aria-hidden="true"></span>
+		<span class="w-3 h-3 rounded-full bg-green-400/80" aria-hidden="true"></span>
+		<span class="ml-auto text-[11px] text-ink-400 dark:text-ink-600 tracking-wide">techviews — zsh</span>
 	</div>
 
 	<div
-		id="terminal-scroll"
+		id="term-scroll"
 		class="terminal-body overflow-y-auto"
-		style="max-height: 320px;"
+		style="min-height:240px; max-height:340px;"
 		aria-live="polite"
 		aria-atomic="false"
 	>
@@ -164,23 +162,24 @@
 			{#if line.type === 'blank'}
 				<div class="h-2" aria-hidden="true"></div>
 			{:else if line.type === 'command'}
-				<div class="flex items-start gap-2">
-					<span class="text-brand-400 shrink-0 select-none" aria-hidden="true">$</span>
-					<span class="text-slate-800 dark:text-slate-100 break-all">{line.text}</span>
+				<div class="flex items-start gap-2 leading-relaxed">
+					<span class="text-brand-500 dark:text-brand-400 shrink-0 select-none">~</span>
+					<span class="text-ink-400 dark:text-ink-500 shrink-0 select-none">$</span>
+					<span class="text-ink-800 dark:text-cream-200 break-all">{line.text}</span>
 					{#if i === lines.length - 1 && isPlaying}
-						<span class="inline-block w-[8px] h-[15px] bg-brand-400 opacity-80 {showCursor ? '' : 'opacity-0'} transition-opacity" aria-hidden="true"></span>
+						<span class="inline-block w-[7px] h-[14px] bg-brand-400 opacity-90 animate-blink" aria-hidden="true"></span>
 					{/if}
 				</div>
 			{:else}
-				<div class="pl-4 text-slate-500 dark:text-slate-400 leading-relaxed whitespace-pre">{line.text}</div>
+				<div class="pl-7 text-ink-500 dark:text-ink-400 leading-relaxed whitespace-pre">{line.text}</div>
 			{/if}
 		{/each}
 
 		{#if isReady}
 			<div class="flex items-center gap-2 mt-1">
-				<span class="text-brand-400 shrink-0 select-none" aria-hidden="true">$</span>
+				<span class="text-brand-500 dark:text-brand-400 shrink-0 select-none">~</span>
+				<span class="text-ink-400 dark:text-ink-500 shrink-0 select-none">$</span>
 				<input
-					bind:this={inputRef}
 					bind:value={inputValue}
 					onkeydown={handleInput}
 					type="text"
@@ -188,8 +187,8 @@
 					spellcheck="false"
 					aria-label="Terminal input"
 					placeholder="type a command..."
-					class="flex-1 bg-transparent text-slate-800 dark:text-slate-100 outline-none
-						placeholder:text-slate-300 dark:placeholder:text-slate-600 min-w-0"
+					class="flex-1 bg-transparent text-ink-800 dark:text-cream-200 outline-none
+						placeholder:text-ink-300 dark:placeholder:text-ink-700 min-w-0"
 				/>
 			</div>
 		{/if}
